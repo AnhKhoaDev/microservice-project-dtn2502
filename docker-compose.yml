@@ -4,17 +4,28 @@ services:
     build:
       context: ./mysql
       args:
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=microservice
+        - MYSQL_USER=khoa
+        - MYSQL_PASSWORD=123456
+        - MYSQL_ROOT_PASSWORD=123456
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "3307:3306"
     volumes:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql/mysql-data:/var/lib/mysql
     networks:
      - spring-microservice
+
+  eureka-server:
+    container_name: eureka-server
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-microservice
 
   account-service:
     build:
@@ -27,11 +38,12 @@ services:
       - mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/microservice?createDatabaseIfNotExist=true&characterEncoding=UTF-8&serverTimeZone=UTC
-      SPRING_DATASOURCE_USERNAME: khoana
-      SPRING_DATASOURCE_PASSWORD: 123456a
+      SPRING_DATASOURCE_USERNAME: khoa
+      SPRING_DATASOURCE_PASSWORD: 123456
       SPRING_APPLICATION_NAME: account-service
     networks:
       - spring-microservice
+
   department-service:
     container_name: department-service
     build:
@@ -45,7 +57,7 @@ services:
       - spring-microservice
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/microservice?createDatabaseIfNotExist=true&characterEncoding=UTF-8&serverTimeZone=UTC
-      SPRING_DATASOURCE_USERNAME: khoana
+      SPRING_DATASOURCE_USERNAME: khoa
       SPRING_DATASOURCE_PASSWORD: 123456
       SPRING_APPLICATION_NAME: department-service
 
