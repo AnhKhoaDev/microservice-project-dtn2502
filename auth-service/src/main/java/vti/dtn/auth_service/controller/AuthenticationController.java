@@ -53,7 +53,7 @@ public class AuthenticationController {
                 .body(response);
     }
 
-    @GetMapping("*/verify")
+    @GetMapping("/verify")
     public ResponseEntity<VerifyTokenResponse> verifyToken(@RequestHeader("Authorization") String authHeader) {
         log.error("Verify token: {}", authHeader);
         VerifyTokenResponse response = authenticationService.verifyToken(authHeader);

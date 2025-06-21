@@ -71,16 +71,16 @@ public class JwtService {
 
     public boolean validateToken(String token) {
         if (isTokenExpired(token)) {
-            return true;
+            return false;
         }
 
         String username = extractUsername(token);
         if (!StringUtils.hasText(username)) {
-            return true;
+            return false;
         }
 
         Optional<User> userEntity = userRepository.findByUsername(username);
-        return userEntity.isEmpty();
+        return userEntity.isPresent();
     }
 
     public boolean isTokenExpired(String token) {

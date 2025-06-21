@@ -32,7 +32,7 @@ public class AuthenticationFilter implements GatewayFilter {
         }
 
         VerifyTokenResponse response = restClient.get()
-                .uri("http://auth-service:8082/api/v1/auth/verify")
+                .uri("http://localhost:8082/api/v1/auth/verify")
                 .header("Authorization", authHeader)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
