@@ -47,20 +47,21 @@ public class SecurityConfiguration {
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//                .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("/oauth2/authorize")
-//                .authorizationRequestRepository(httpCookieOAuthorizationRequestRepository)
-//                .and()
-//                .redirectionEndpoint()
-//                .baseUri("/oauth2/callback/*")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(customOAuth2UserService)
-//                .and()
-//                .successHandler(oAuth2AuthenticationSuccessHandler)
-//                .failureHandler(oAuth2AuthenticationFailureHandler);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(httpCookieOAuthorizationRequestRepository)
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler))
+                .securityMatcher(WHITE_LIST_URL);
         return http.build();
     }
 }
