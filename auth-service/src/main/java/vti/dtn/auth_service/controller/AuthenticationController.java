@@ -24,7 +24,7 @@ import vti.dtn.auth_service.service.AuthenticationService;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/v1/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
@@ -55,7 +55,7 @@ public class AuthenticationController {
 
     @GetMapping("/verify")
     public ResponseEntity<VerifyTokenResponse> verifyToken(@RequestHeader("Authorization") String authHeader) {
-        log.error("Verify token: {}", authHeader);
+        log.info("Verify token: {}", authHeader);
         VerifyTokenResponse response = authenticationService.verifyToken(authHeader);
         return ResponseEntity
                 .status(response.getStatus())
